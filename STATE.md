@@ -72,7 +72,7 @@ Siguiendo principios de desarrollo ordenados:
 
 ## 5. Próximos Pasos (Roadmap)
 
-1. [ ] Crear las páginas secundarias dedicadas `/beats` y `/en/beats` para el catálogo completo de instrumentales.
+1. [x] Crear las páginas secundarias dedicadas `/beats` y `/en/beats` para el catálogo completo de instrumentales.
 2. [ ] Crear las páginas dinámicas de detalle de producción `/produccion/[slug]`.
 3. [ ] Añadir colecciones de contenido de Astro (`content collections`) para tipar y gestionar producciones y beats mediante archivos Markdown/YAML en `src/content/`.
 4. [ ] Normalización de audio a estándares de streaming (-14 LUFS) en próximos beats subidos.
