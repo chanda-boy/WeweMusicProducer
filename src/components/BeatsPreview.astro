@@ -116,6 +116,13 @@ const beats = [
 				))
 			}
 		</div>
+
+		<div class="beats-footer">
+			<a href={lang === 'es' ? '/beats' : '/en/beats'} class="btn btn-secondary catalog-btn">
+				<span>{lang === 'es' ? 'Ver catálogo completo' : 'View full catalog'}</span>
+				<Icon name="ArrowRight" size={16} />
+			</a>
+		</div>
 	</div>
 </section>
 
@@ -235,6 +242,20 @@ const beats = [
 	.beat-request-btn {
 		font-size: var(--fs-small);
 		padding: 0.55rem 1.1rem;
+	}
+
+	.beats-footer {
+		display: flex;
+		justify-content: center;
+		margin-top: var(--s-6);
+	}
+
+	.catalog-btn {
+		display: flex;
+		align-items: center;
+		gap: var(--s-2);
+		font-size: var(--fs-small);
+		font-weight: 500;
 	}
 
 	@media (max-width: 640px) {

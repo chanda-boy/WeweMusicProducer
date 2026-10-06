@@ -11,12 +11,14 @@ const labels = {
 	es: {
 		productions: 'Producciones',
 		beats: 'Beats',
+		catalog: 'Catálogo',
 		bio: 'Bio',
 		requestBeat: 'Pedir beat',
 	},
 	en: {
 		productions: 'Productions',
 		beats: 'Beats',
+		catalog: 'Catalog',
 		bio: 'Bio',
 		requestBeat: 'Request beat',
 	},
@@ -32,6 +34,7 @@ const labels = {
 		<nav class="nav-menu" aria-label="Navegación principal">
 			<a href="#producciones" class="nav-link">{labels.productions}</a>
 			<a href="#beats" class="nav-link">{labels.beats}</a>
+			<a href={lang === 'es' ? '/beats' : '/en/beats'} class="nav-link">{labels.catalog}</a>
 			<a href="#bio" class="nav-link">{labels.bio}</a>
 		</nav>
 
