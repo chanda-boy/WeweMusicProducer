@@ -8,8 +8,8 @@ Documento de seguimiento del estado actual del desarrollo, decisiones de arquite
 
 - **Proyecto:** Sitio web oficial y portafolio de Wewe (Productor Musical).
 - **Stack:** Astro (Static mode), CSS nativo con scroll-driven animations, Geist Variable (`@fontsource-variable/geist`), HTML5 Audio API + Web Audio API.
-- **Fase Actual:** Desarrollo de features / Pruebas de reproducción de audio y beats inéditos.
-- **Rama Activa:** `feature/beat-audio-playback`.
+- **Fase Actual:** Desarrollo de features / Enlace y navegación hacia catálogo completo de beats.
+- **Rama Activa:** `feature/add-beats-navigation`.
 
 ---
 
@@ -32,13 +32,13 @@ Siguiendo principios de desarrollo ordenados:
 - **Accesibilidad:** Anillo de foco `:focus-visible` de 2px con offset de 3px, enlace accesible "Saltar al contenido" (`.skip-link`) y respeto por `prefers-reduced-motion` y `prefers-reduced-transparency`.
 
 ### B. Componentes Modulares de la UI (`src/components/`)
-1. **`Nav.astro`:** Barra fija translúcida (64px) con blur (`--glass`), enlaces a *Producciones*, *Beats*, *Bio*, selector *ES / EN* y botón de acción.
+1. **`Nav.astro`:** Barra fija translúcida (64px) con blur (`--glass`), enlaces a *Producciones*, *Beats*, *Catálogo* (`/beats` o `/en/beats`), *Bio*, selector *ES / EN* y botón de acción.
 2. **`Hero.astro`:** Layout asimétrico con foto 4:5 B/N, titular conciso de 2 líneas con itálica Geist (*"Sonido que define el momento"*), subtexto de menos de 20 palabras y acción primaria *"Escuchar"*.
 3. **`Statement.astro`:** Manifiesto con animación *scroll-driven* que revela el texto palabra por palabra.
 4. **`StickyStack.astro`:** Tarjetas de producciones destacadas que se apilan con el scroll, con metadatos reales y botón de play.
 5. **`ZoomImage.astro`:** Fotografía de estudio que realiza zoom a sangre (*full bleed*) conforme se navega.
 6. **`Bio.astro`:** Fotografía vertical real de Wewe (`/jared-prod.jpg`) y texto en 3ª persona estricta sin pronombres ("Wewe...").
-7. **`BeatsPreview.astro`:** Lista de beats con filtros en pastilla por género (Trap, Reggaetón, Pop alternativo), duraciones tabulares y botones interactivos. Incluye el beat real **"Mañana Sí"** (96 BPM, 1:29).
+7. **`BeatsPreview.astro`:** Lista de beats con filtros en pastilla por género (Trap, Reggaetón, Pop alternativo), duraciones tabulares, botones interactivos y botón directo *"Ver catálogo completo"* enlazado a `/beats`. Incluye el beat real **"Mañana Sí"** (96 BPM, 1:29).
 8. **`ContactSection.astro`:** Sin formularios; acceso directo al DM de Instagram (*"Escribir por Instagram"*).
 9. **`Footer.astro`:** Copyright sin guiones largos ni emojis, e iconos Phosphor de Instagram, YouTube y TikTok.
 10. **`Toast.astro`:** Notificación *"Mensaje copiado"* al hacer clic en *"Pedir beat"* (copia automáticamente el mensaje prellenado para Instagram).
@@ -73,6 +73,7 @@ Siguiendo principios de desarrollo ordenados:
 ## 5. Próximos Pasos (Roadmap)
 
 1. [x] Crear las páginas secundarias dedicadas `/beats` y `/en/beats` para el catálogo completo de instrumentales.
-2. [ ] Crear las páginas dinámicas de detalle de producción `/produccion/[slug]`.
-3. [ ] Añadir colecciones de contenido de Astro (`content collections`) para tipar y gestionar producciones y beats mediante archivos Markdown/YAML en `src/content/`.
-4. [ ] Normalización de audio a estándares de streaming (-14 LUFS) en próximos beats subidos.
+2. [x] Enlazar de forma visible y accesible las rutas del catálogo desde la barra de navegación y la sección de beats en la página de inicio.
+3. [ ] Crear las páginas dinámicas de detalle de producción `/produccion/[slug]`.
+4. [ ] Añadir colecciones de contenido de Astro (`content collections`) para tipar y gestionar producciones y beats mediante archivos Markdown/YAML en `src/content/`.
+5. [ ] Normalización de audio a estándares de streaming (-14 LUFS) en próximos beats subidos.
