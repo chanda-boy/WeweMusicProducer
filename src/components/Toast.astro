@@ -1,0 +1,90 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+	lang?: 'es' | 'en';
+}
+
+const { lang = 'es' } = Astro.props;
+
+const toastText = lang === 'es' ? 'Mensaje copiado' : 'Message copied';
+---
+
+<div id="toast-notification" class="toast-bubble" role="status" aria-live="polite">
+	<Icon name="Check" size={18} class="toast-icon" />
+	<span class="toast-message">{toastText}</span>
+</div>
+
+<style>
+	.toast-bubble {
+		position: fixed;
+		bottom: calc(80px + var(--s-5));
+		left: 50%;
+		transform: translateX(-50%) translateY(120%);
+		z-index: var(--z-toast);
+		display: inline-flex;
+		align-items: center;
+		gap: var(--s-2);
+		padding: var(--s-3) var(--s-5);
+		background: var(--surface-1);
+		color: var(--text);
+		border: 1px solid var(--line-strong);
+		border-radius: var(--r-pill);
+		font-size: var(--fs-micro);
+		font-weight: 500;
+		box-shadow: 0 16px 40px rgb(11 11 13 / 0.6);
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition: transform 0.3s var(--ease), opacity 0.3s var(--ease), visibility 0.3s;
+	}
+
+	.toast-bubble.show {
+		transform: translateX(-50%) translateY(0);
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.toast-icon {
+		color: var(--text);
+	}
+</style>
+
+<script>
+	// Manejo global de copiado de beat y toast
+	const toast = document.getElementById('toast-notification');
+	let toastTimer: number | undefined;
+
+	function showToast(customMsg?: string) {
+		if (!toast) return;
+		if (toastTimer) clearTimeout(toastTimer);
+
+		if (customMsg) {
+			const msgSpan = toast.querySelector('.toast-message');
+			if (msgSpan) msgSpan.textContent = customMsg;
+		}
+
+		toast.classList.add('show');
+		toastTimer = window.setTimeout(() => {
+			toast.classList.remove('show');
+		}, 3000);
+	}
+
+	document.addEventListener('click', (event) => {
+		const target = (event.target as HTMLElement).closest('[data-request-beat]');
+		if (!target) return;
+
+		const beatName = target.getAttribute('data-request-beat') || 'un beat';
+		const isEn = document.documentElement.lang === 'en';
+
+		const prefilledText = isEn
+			? `Hi Wewe, I listened to your work on your site and I'm interested in the beat "${beatName}". Can we talk?`
+			: `Hola Wewe, escuché tu trabajo en la web y me interesa el beat "${beatName}". ¿Podemos hablar?`;
+
+		navigator.clipboard.writeText(prefilledText).then(() => {
+			showToast(isEn ? 'Message copied' : 'Mensaje copiado');
+		}).catch(() => {
+			showToast(isEn ? 'Message copied' : 'Mensaje copiado');
+		});
+	});
+</script>

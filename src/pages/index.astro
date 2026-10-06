@@ -1,17 +1,62 @@
 ---
+import '@fontsource-variable/geist';
+import '../styles/global.css';
 
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Statement from '../components/Statement.astro';
+import StickyStack from '../components/StickyStack.astro';
+import ZoomImage from '../components/ZoomImage.astro';
+import Bio from '../components/Bio.astro';
+import BeatsPreview from '../components/BeatsPreview.astro';
+import ContactSection from '../components/ContactSection.astro';
+import Footer from '../components/Footer.astro';
+import PersistentPlayer from '../components/PersistentPlayer.astro';
+import Toast from '../components/Toast.astro';
+
+const lang = 'es';
 ---
 
-<html lang="en">
+<!doctype html>
+<html lang={lang}>
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<meta name="theme-color" content="#0b0b0d" />
+		<meta
+			name="description"
+			content="Wewe es productor musical especializado en urbano, reggaetón y trap, con incursiones en pop alternativo e indie."
+		/>
+		<title>Wewe | Productor musical</title>
+		<meta property="og:title" content="Wewe | Productor musical" />
+		<meta
+			property="og:description"
+			content="Wewe produce, mezcla y masteriza para artistas que buscan un sonido con carácter propio."
+		/>
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://wewemusicproducer.com" />
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<a href="#hero" class="skip-link">Saltar al contenido</a>
+
+		<Nav lang={lang} />
+
+		<main id="main-content">
+			<Hero lang={lang} />
+			<Statement lang={lang} />
+			<StickyStack lang={lang} />
+			<ZoomImage lang={lang} />
+			<Bio lang={lang} />
+			<BeatsPreview lang={lang} />
+			<ContactSection lang={lang} />
+		</main>
+
+		<Footer lang={lang} />
+
+		<PersistentPlayer lang={lang} />
+		<Toast lang={lang} />
 	</body>
 </html>

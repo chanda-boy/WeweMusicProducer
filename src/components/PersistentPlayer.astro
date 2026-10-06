@@ -1,0 +1,453 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+	lang?: 'es' | 'en';
+}
+
+const { lang = 'es' } = Astro.props;
+---
+
+<aside id="persistent-player" class="player-bar glass-surface" aria-label="Reproductor de audio">
+	<div class="player-inner">
+		<!-- Track Info -->
+		<div class="player-info">
+			<div class="player-cover">
+				<img
+					id="player-cover-img"
+					src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop"
+					alt="Portada de la producción sonando"
+					width="44"
+					height="44"
+					class="cover-thumbnail"
+				/>
+			</div>
+			<div class="player-details">
+				<span id="player-title" class="track-title">Marea</span>
+				<span id="player-artist" class="track-artist">Elena Paz · Wewe</span>
+			</div>
+		</div>
+
+		<!-- Player Controls & Timeline -->
+		<div class="player-center">
+			<div class="player-controls">
+				<button
+					type="button"
+					id="player-prev"
+					class="ctrl-btn"
+					aria-label="Pista anterior"
+				>
+					<Icon name="SkipBack" size={18} />
+				</button>
+				<button
+					type="button"
+					id="player-play-toggle"
+					class="play-btn"
+					aria-label="Reproducir o pausar"
+				>
+					<span class="icon-play"><Icon name="Play" size={20} /></span>
+					<span class="icon-pause" style="display: none;"><Icon name="Pause" size={20} /></span>
+				</button>
+				<button
+					type="button"
+					id="player-next"
+					class="ctrl-btn"
+					aria-label="Pista siguiente"
+				>
+					<Icon name="SkipForward" size={18} />
+				</button>
+			</div>
+
+			<div class="player-timeline">
+				<span id="player-current-time" class="time-label tabular">0:00</span>
+				<div id="player-progress-bar" class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+					<div id="player-progress-fill" class="progress-fill"></div>
+				</div>
+				<span id="player-duration" class="time-label tabular">2:45</span>
+			</div>
+		</div>
+
+		<!-- Volume / Action -->
+		<div class="player-extras">
+			<button
+				type="button"
+				id="player-volume-btn"
+				class="ctrl-btn"
+				aria-label="Silenciar o activar sonido"
+			>
+				<span class="icon-vol-high"><Icon name="SpeakerHigh" size={18} /></span>
+				<span class="icon-vol-mute" style="display: none;"><Icon name="SpeakerSlash" size={18} /></span>
+			</button>
+		</div>
+	</div>
+</aside>
+
+<style>
+	.player-bar {
+		position: fixed;
+		bottom: var(--s-4);
+		left: 50%;
+		transform: translateX(-50%);
+		width: calc(100% - (var(--gutter) * 2));
+		max-width: 860px;
+		height: 72px;
+		z-index: var(--z-player);
+		background: var(--glass);
+		backdrop-filter: blur(20px) saturate(140%);
+		-webkit-backdrop-filter: blur(20px) saturate(140%);
+		border: 1px solid var(--line-alpha);
+		border-radius: var(--r-card);
+		box-shadow: 0 24px 64px rgb(11 11 13 / 0.6), inset 0 1px 0 rgb(242 242 243 / 0.06);
+		display: flex;
+		align-items: center;
+		padding-inline: var(--s-4);
+	}
+
+	.player-inner {
+		width: 100%;
+		display: grid;
+		grid-template-columns: 220px 1fr 60px;
+		align-items: center;
+		gap: var(--s-4);
+	}
+
+	@media (max-width: 768px) {
+		.player-bar {
+			height: 64px;
+			bottom: var(--s-3);
+			padding-inline: var(--s-3);
+		}
+		.player-inner {
+			grid-template-columns: 1fr auto;
+			gap: var(--s-3);
+		}
+		.player-extras,
+		.player-timeline {
+			display: none !important;
+		}
+	}
+
+	.player-info {
+		display: flex;
+		align-items: center;
+		gap: var(--s-3);
+		min-width: 0;
+	}
+
+	.player-cover {
+		width: 44px;
+		height: 44px;
+		border-radius: 12px;
+		overflow: hidden;
+		flex-shrink: 0;
+		background: var(--surface-2);
+	}
+
+	.cover-thumbnail {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		filter: grayscale(1) contrast(1.1);
+	}
+
+	.player-details {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+	}
+
+	.track-title {
+		font-size: var(--fs-small);
+		font-weight: 600;
+		color: var(--text);
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.track-artist {
+		font-size: var(--fs-micro);
+		color: var(--text-subtle);
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.player-center {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.player-controls {
+		display: flex;
+		align-items: center;
+		gap: var(--s-3);
+	}
+
+	.ctrl-btn {
+		background: transparent;
+		border: none;
+		color: var(--text-muted);
+		width: 36px;
+		height: 36px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: var(--r-pill);
+		cursor: pointer;
+		transition: color 0.2s var(--ease);
+	}
+
+	.ctrl-btn:hover {
+		color: var(--text);
+	}
+
+	.play-btn {
+		background: var(--text);
+		color: var(--ink);
+		border: none;
+		width: 40px;
+		height: 40px;
+		border-radius: var(--r-pill);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		transition: background-color 0.2s var(--ease), transform 0.12s var(--ease);
+	}
+
+	.play-btn:hover {
+		background: var(--fill-hover);
+	}
+
+	.play-btn:active {
+		transform: scale(0.96);
+	}
+
+	.player-timeline {
+		width: 100%;
+		max-width: 420px;
+		display: flex;
+		align-items: center;
+		gap: var(--s-3);
+	}
+
+	.time-label {
+		font-size: var(--fs-micro);
+		color: var(--text-subtle);
+		min-width: 32px;
+	}
+
+	.progress-track {
+		flex: 1;
+		height: 4px;
+		background: var(--line-strong);
+		border-radius: 999px;
+		position: relative;
+		cursor: pointer;
+		overflow: hidden;
+	}
+
+	.progress-fill {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 0%;
+		background: var(--text);
+		border-radius: 999px;
+		transition: width 0.1s linear;
+	}
+
+	.player-extras {
+		display: flex;
+		justify-content: flex-end;
+	}
+</style>
+
+<script>
+	// Lista unificada de pistas (producciones + beats)
+	const playlist = [
+		{ title: 'Marea', artist: 'Elena Paz · Wewe', cover: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop', duration: 165, freq: 174 },
+		{ title: 'Noche Clara', artist: 'Mateo Cruz · Wewe', cover: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=200&auto=format&fit=crop', duration: 184, freq: 220 },
+		{ title: 'Bajo Tierra', artist: 'Vera Santos · Wewe', cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=200&auto=format&fit=crop', duration: 158, freq: 196 },
+		{ title: 'Frecuencia', artist: 'Daniel O. · Wewe', cover: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=200&auto=format&fit=crop', duration: 172, freq: 246 },
+		{ title: 'Beat: Humo', artist: 'Wewe · Trap (140 BPM)', cover: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=200&auto=format&fit=crop', duration: 158, freq: 140 },
+		{ title: 'Beat: Eclipse', artist: 'Wewe · Reggaetón (96 BPM)', cover: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=200&auto=format&fit=crop', duration: 184, freq: 165 },
+		{ title: 'Beat: Vértigo', artist: 'Wewe · Pop alternativo (122 BPM)', cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=200&auto=format&fit=crop', duration: 165, freq: 260 }
+	];
+
+	let currentIndex = 0;
+	let isPlaying = false;
+	let currentTime = 0;
+	let timerInterval: number | undefined;
+	let audioCtx: AudioContext | null = null;
+	let oscNode: OscillatorNode | null = null;
+	let gainNode: GainNode | null = null;
+	let isMuted = false;
+
+	const coverImg = document.getElementById('player-cover-img') as HTMLImageElement;
+	const titleEl = document.getElementById('player-title');
+	const artistEl = document.getElementById('player-artist');
+	const playBtn = document.getElementById('player-play-toggle');
+	const prevBtn = document.getElementById('player-prev');
+	const nextBtn = document.getElementById('player-next');
+	const currentTimeEl = document.getElementById('player-current-time');
+	const durationEl = document.getElementById('player-duration');
+	const progressFill = document.getElementById('player-progress-fill');
+	const progressBar = document.getElementById('player-progress-bar');
+	const volBtn = document.getElementById('player-volume-btn');
+
+	const iconPlay = playBtn?.querySelector('.icon-play') as HTMLElement;
+	const iconPause = playBtn?.querySelector('.icon-pause') as HTMLElement;
+	const iconVolHigh = volBtn?.querySelector('.icon-vol-high') as HTMLElement;
+	const iconVolMute = volBtn?.querySelector('.icon-vol-mute') as HTMLElement;
+
+	function formatTime(seconds: number) {
+		const m = Math.floor(seconds / 60);
+		const s = Math.floor(seconds % 60);
+		return `${m}:${s < 10 ? '0' : ''}${s}`;
+	}
+
+	function initAudio() {
+		if (!audioCtx) {
+			const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+			audioCtx = new AudioContextClass();
+		}
+		if (audioCtx.state === 'suspended') {
+			audioCtx.resume();
+		}
+	}
+
+	function startSynth(freq: number) {
+		initAudio();
+		if (!audioCtx) return;
+
+		stopSynth();
+
+		oscNode = audioCtx.createOscillator();
+		gainNode = audioCtx.createGain();
+
+		oscNode.type = 'triangle';
+		oscNode.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+		// Suave fade in
+		gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+		gainNode.gain.linearRampToValueAtTime(isMuted ? 0 : 0.08, audioCtx.currentTime + 0.1);
+
+		oscNode.connect(gainNode);
+		gainNode.connect(audioCtx.destination);
+		oscNode.start();
+	}
+
+	function stopSynth() {
+		if (oscNode && gainNode && audioCtx) {
+			try {
+				gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.1);
+				setTimeout(() => {
+					oscNode?.stop();
+					oscNode?.disconnect();
+					oscNode = null;
+				}, 100);
+			} catch {
+				// Noop
+			}
+		}
+	}
+
+	function loadTrack(index: number) {
+		currentIndex = (index + playlist.length) % playlist.length;
+		const track = playlist[currentIndex];
+		if (titleEl) titleEl.textContent = track.title;
+		if (artistEl) artistEl.textContent = track.artist;
+		if (coverImg) coverImg.src = track.cover;
+		if (durationEl) durationEl.textContent = formatTime(track.duration);
+		currentTime = 0;
+		updateProgress();
+	}
+
+	function updateProgress() {
+		const track = playlist[currentIndex];
+		const pct = (currentTime / track.duration) * 100;
+		if (progressFill) progressFill.style.width = `${pct}%`;
+		if (currentTimeEl) currentTimeEl.textContent = formatTime(currentTime);
+		if (progressBar) progressBar.setAttribute('aria-valuenow', Math.round(pct).toString());
+	}
+
+	function play() {
+		isPlaying = true;
+		if (iconPlay) iconPlay.style.display = 'none';
+		if (iconPause) iconPause.style.display = 'inline-flex';
+		startSynth(playlist[currentIndex].freq);
+
+		if (timerInterval) clearInterval(timerInterval);
+		timerInterval = window.setInterval(() => {
+			currentTime += 1;
+			if (currentTime >= playlist[currentIndex].duration) {
+				next();
+			} else {
+				updateProgress();
+			}
+		}, 1000);
+	}
+
+	function pause() {
+		isPlaying = false;
+		if (iconPlay) iconPlay.style.display = 'inline-flex';
+		if (iconPause) iconPause.style.display = 'none';
+		stopSynth();
+		if (timerInterval) clearInterval(timerInterval);
+	}
+
+	function togglePlay() {
+		if (isPlaying) pause();
+		else play();
+	}
+
+	function next() {
+		loadTrack(currentIndex + 1);
+		if (isPlaying) play();
+	}
+
+	function prev() {
+		loadTrack(currentIndex - 1);
+		if (isPlaying) play();
+	}
+
+	// Listeners
+	playBtn?.addEventListener('click', togglePlay);
+	nextBtn?.addEventListener('click', next);
+	prevBtn?.addEventListener('click', prev);
+
+	volBtn?.addEventListener('click', () => {
+		isMuted = !isMuted;
+		if (iconVolHigh) iconVolHigh.style.display = isMuted ? 'none' : 'inline-flex';
+		if (iconVolMute) iconVolMute.style.display = isMuted ? 'inline-flex' : 'none';
+		if (gainNode && audioCtx) {
+			gainNode.gain.setValueAtTime(isMuted ? 0 : 0.08, audioCtx.currentTime);
+		}
+	});
+
+	progressBar?.addEventListener('click', (e) => {
+		const rect = progressBar.getBoundingClientRect();
+		const clickX = e.clientX - rect.left;
+		const ratio = Math.max(0, Math.min(1, clickX / rect.width));
+		currentTime = Math.floor(ratio * playlist[currentIndex].duration);
+		updateProgress();
+	});
+
+	// Conectar botones externos de "Escuchar"
+	document.addEventListener('click', (event) => {
+		const playTrigger = (event.target as HTMLElement).closest('[data-play-track]');
+		if (!playTrigger) return;
+
+		const trackIdx = parseInt(playTrigger.getAttribute('data-play-track') || '0', 10);
+		loadTrack(trackIdx);
+		play();
+	});
+
+	// Cargar pista inicial
+	loadTrack(0);
+</script>

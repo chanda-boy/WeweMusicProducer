@@ -1,0 +1,78 @@
+---
+interface Props {
+	lang?: 'es' | 'en';
+}
+
+const { lang = 'es' } = Astro.props;
+
+const statementText =
+	lang === 'es'
+		? 'Cada canción tiene un momento que la define. Todo lo demás se construye alrededor.'
+		: 'Every record has one moment that decides it. Everything else gets built around it.';
+
+const words = statementText.split(' ');
+---
+
+<section class="statement-section" aria-label="Manifiesto">
+	<div class="wrap">
+		<p class="statement-text">
+			{
+				words.map((word) => (
+					<span class="word-token">{word}&nbsp;</span>
+				))
+			}
+		</p>
+	</div>
+</section>
+
+<style>
+	.statement-section {
+		padding-block: clamp(7rem, 16vw, 14rem);
+		display: flex;
+		align-items: center;
+	}
+
+	.statement-text {
+		font-size: var(--fs-statement);
+		font-weight: 500;
+		letter-spacing: -0.035em;
+		line-height: 1.15;
+		max-width: 24ch;
+		margin-left: 0;
+	}
+
+	@media (min-width: 1024px) {
+		.statement-text {
+			margin-left: 10vw;
+		}
+	}
+
+	.word-token {
+		display: inline-block;
+		color: var(--text);
+		opacity: 0.25;
+		transition: opacity 0.3s var(--ease);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		@supports (animation-timeline: view()) {
+			.word-token {
+				animation: word-reveal linear both;
+				animation-timeline: view();
+				animation-range: entry 80% cover 40%;
+			}
+
+			@keyframes word-reveal {
+				to {
+					opacity: 1;
+				}
+			}
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.word-token {
+			opacity: 1;
+		}
+	}
+</style>

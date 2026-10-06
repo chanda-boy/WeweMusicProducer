@@ -1,0 +1,261 @@
+/* Wewe: Monocromo puro, solo oscuro, estilo producto Apple.
+   Basado estrictamente en specs/01-sistema-visual.md */
+
+:root {
+	color-scheme: dark;
+
+	/* 1.1 Escala de color */
+	--bg: #0b0b0d;
+	--surface-1: #141417;
+	--surface-2: #1c1c20;
+	--line: #26262b;
+	--line-strong: #34343a;
+	--control-border: #6a6a72;
+	--text-subtle: #8a8a92;
+	--text-muted: #a3a3aa;
+	--fill-hover: #d9d9dc;
+	--text: #f2f2f3;
+	--ink: #0b0b0d;
+
+	/* Tokens translúcidos */
+	--line-alpha: rgb(242 242 243 / 0.10);
+	--glass: rgb(11 11 13 / 0.80);
+	--scrim: linear-gradient(to top, rgb(11 11 13 / 0.85), rgb(11 11 13 / 0) 60%);
+
+	/* 2.1 Escala tipográfica */
+	--fs-display: clamp(2.75rem, 7vw, 6rem);
+	--fs-statement: clamp(2rem, 4.8vw, 4rem);
+	--fs-h2: clamp(2rem, 4.4vw, 3.75rem);
+	--fs-h3: clamp(1.375rem, 2vw, 1.75rem);
+	--fs-lead: clamp(1.0625rem, 1.4vw, 1.25rem);
+	--fs-body: 1rem;
+	--fs-small: 0.875rem;
+	--fs-micro: 0.8125rem;
+	--fs-eyebrow: 0.75rem;
+
+	/* 3. Radios */
+	--r-pill: 999px;
+	--r-card: 24px;
+
+	/* 4.1 Espaciado base 4px */
+	--s-1: 4px;
+	--s-2: 8px;
+	--s-3: 12px;
+	--s-4: 16px;
+	--s-5: 24px;
+	--s-6: 32px;
+	--s-7: 48px;
+	--s-8: 64px;
+	--s-9: 96px;
+	--s-10: 128px;
+	--s-11: 192px;
+
+	/* 4.2 Grid */
+	--max: 1400px;
+	--gutter: clamp(1.25rem, 4vw, 3rem);
+	--ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+	/* 8.2 Escala de z-index */
+	--z-base: 0;
+	--z-raised: 1;
+	--z-stack: 10;
+	--z-nav: 100;
+	--z-player: 110;
+	--z-toast: 120;
+	--z-grain: 150;
+	--z-skip: 200;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	background: var(--bg);
+	color: var(--text);
+}
+
+body {
+	margin: 0;
+	font-family: 'Geist Variable', system-ui, -apple-system, sans-serif;
+	background: var(--bg);
+	color: var(--text);
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overflow-x: clip;
+	position: relative;
+}
+
+/* Grano sutil fijo sobre toda la pantalla */
+body::after {
+	content: '';
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: var(--z-grain);
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* Selección */
+::selection {
+	background: var(--text);
+	color: var(--ink);
+}
+
+/* Foco accesible */
+:focus-visible {
+	outline: 2px solid var(--text);
+	outline-offset: 3px;
+}
+
+/* Enlace accesible para saltar al contenido */
+.skip-link {
+	position: fixed;
+	top: var(--s-4);
+	left: var(--s-4);
+	z-index: var(--z-skip);
+	padding: var(--s-3) var(--s-5);
+	background: var(--text);
+	color: var(--ink);
+	border-radius: var(--r-pill);
+	font-size: var(--fs-small);
+	font-weight: 600;
+	transform: translateY(-150%);
+	transition: transform 0.2s var(--ease);
+}
+.skip-link:focus-visible {
+	transform: translateY(0);
+}
+
+img {
+	display: block;
+	max-width: 100%;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote {
+	margin: 0;
+}
+
+/* Contenedor estándar */
+.wrap {
+	width: 100%;
+	max-width: var(--max);
+	margin-inline: auto;
+	padding-inline: var(--gutter);
+}
+
+/* Tipografía de display */
+.display {
+	font-weight: 600;
+	letter-spacing: -0.045em;
+	line-height: 1.0;
+}
+
+.display em {
+	font-style: italic;
+	font-weight: 600;
+	color: var(--text);
+	display: inline-block;
+	padding-bottom: 0.08em;
+	line-height: 1.1;
+}
+
+/* Botones */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--s-2);
+	white-space: nowrap;
+	font-size: var(--fs-small);
+	font-weight: 500;
+	border-radius: var(--r-pill);
+	padding: 0.75rem 1.4rem;
+	transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.12s var(--ease);
+	cursor: pointer;
+	border: 1px solid transparent;
+	text-decoration: none;
+	user-select: none;
+}
+
+.btn:active {
+	transform: scale(0.98);
+}
+
+.btn-primary {
+	background: var(--text);
+	color: var(--ink);
+	border-color: transparent;
+}
+.btn-primary:hover {
+	background: var(--fill-hover);
+}
+
+.btn-secondary {
+	background: transparent;
+	color: var(--text);
+	border-color: var(--control-border);
+}
+.btn-secondary:hover {
+	border-color: var(--text);
+}
+
+.btn-icon {
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	border-radius: var(--r-pill);
+}
+
+/* Chips de filtro */
+.chip {
+	display: inline-flex;
+	align-items: center;
+	padding: var(--s-2) var(--s-4);
+	border-radius: var(--r-pill);
+	font-size: var(--fs-micro);
+	font-weight: 500;
+	border: 1px solid var(--control-border);
+	background: transparent;
+	color: var(--text-muted);
+	cursor: pointer;
+	transition: all 0.2s var(--ease);
+}
+.chip:hover {
+	border-color: var(--text);
+	color: var(--text);
+}
+.chip.active {
+	background: var(--text);
+	color: var(--ink);
+	border-color: var(--text);
+}
+
+/* Tabular nums para player, tiempos y metadatos numéricos */
+.tabular {
+	font-variant-numeric: tabular-nums;
+}
+
+/* Reducción de transparencia */
+@media (prefers-reduced-transparency: reduce) {
+	.glass-surface {
+		background: var(--surface-1) !important;
+		backdrop-filter: none !important;
+		-webkit-backdrop-filter: none !important;
+	}
+}

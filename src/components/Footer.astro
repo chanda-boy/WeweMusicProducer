@@ -1,0 +1,89 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+	lang?: 'es' | 'en';
+}
+
+const { lang = 'es' } = Astro.props;
+---
+
+<footer class="footer-bar">
+	<div class="wrap footer-container">
+		<div class="footer-left">
+			<span class="footer-copy">&copy; 2026 Wewe</span>
+		</div>
+
+		<div class="footer-socials">
+			<a
+				href="https://instagram.com/wewemusicproducer"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="social-link"
+				aria-label="Instagram de Wewe"
+			>
+				<Icon name="InstagramLogo" size={20} />
+			</a>
+			<a
+				href="https://youtube.com/@wewemusicproducer"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="social-link"
+				aria-label="YouTube de Wewe"
+			>
+				<Icon name="YoutubeLogo" size={20} />
+			</a>
+			<a
+				href="https://tiktok.com/@wewemusicproducer"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="social-link"
+				aria-label="TikTok de Wewe"
+			>
+				<Icon name="TiktokLogo" size={20} />
+			</a>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.footer-bar {
+		padding-block: var(--s-6);
+		border-top: 1px solid var(--line);
+		background: var(--bg);
+	}
+
+	.footer-container {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--s-5);
+	}
+
+	.footer-copy {
+		font-size: var(--fs-small);
+		color: var(--text-subtle);
+	}
+
+	.footer-socials {
+		display: flex;
+		align-items: center;
+		gap: var(--s-5);
+	}
+
+	.social-link {
+		color: var(--text-subtle);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		border-radius: var(--r-pill);
+		transition: color 0.2s var(--ease), background-color 0.2s var(--ease);
+	}
+
+	.social-link:hover {
+		color: var(--text);
+		background-color: var(--surface-1);
+	}
+</style>

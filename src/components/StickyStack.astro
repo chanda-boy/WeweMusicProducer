@@ -1,0 +1,229 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+	lang?: 'es' | 'en';
+}
+
+const { lang = 'es' } = Astro.props;
+
+const labels = {
+	es: {
+		sectionTitle: 'Producciones',
+		listen: 'Escuchar',
+	},
+	en: {
+		sectionTitle: 'Productions',
+		listen: 'Listen',
+	},
+}[lang];
+
+const productions = [
+	{
+		id: 1,
+		title: 'Marea',
+		artist: 'Elena Paz',
+		year: '2025',
+		role: lang === 'es' ? 'Producción y mezcla' : 'Production and mixing',
+		genre: lang === 'es' ? 'Pop alternativo' : 'Alt-pop',
+		cover: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop',
+		audioIndex: 0,
+	},
+	{
+		id: 2,
+		title: 'Noche Clara',
+		artist: 'Mateo Cruz',
+		year: '2025',
+		role: lang === 'es' ? 'Producción completa' : 'Full production',
+		genre: 'Reggaetón',
+		cover: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop',
+		audioIndex: 1,
+	},
+	{
+		id: 3,
+		title: 'Bajo Tierra',
+		artist: 'Vera Santos',
+		year: '2024',
+		role: lang === 'es' ? 'Producción y beat' : 'Production and beat',
+		genre: 'Trap',
+		cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800&auto=format&fit=crop',
+		audioIndex: 2,
+	},
+	{
+		id: 4,
+		title: 'Frecuencia',
+		artist: 'Daniel O.',
+		year: '2024',
+		role: lang === 'es' ? 'Mezcla y master' : 'Mixing and mastering',
+		genre: lang === 'es' ? 'Urbano' : 'Urban',
+		cover: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=800&auto=format&fit=crop',
+		audioIndex: 3,
+	},
+];
+---
+
+<section class="stack-section" id="producciones" aria-label={labels.sectionTitle}>
+	<div class="wrap">
+		<div class="stack-header">
+			<h2 class="display stack-heading">{labels.sectionTitle}</h2>
+		</div>
+
+		<div class="stack-list">
+			{
+				productions.map((item, index) => (
+					<article
+						class="stack-card"
+						style={`--card-idx: ${index};`}
+					>
+						<div class="card-inner">
+							<div class="card-media">
+								<img
+									src={item.cover}
+									alt={`Portada de ${item.title} de ${item.artist}`}
+									width="640"
+									height="640"
+									loading="lazy"
+									class="card-img"
+								/>
+							</div>
+							<div class="card-info">
+								<div class="card-meta">
+									<span class="card-genre">{item.genre}</span>
+									<span class="meta-dot">·</span>
+									<span class="card-year tabular">{item.year}</span>
+								</div>
+								<h3 class="card-title">{item.title}</h3>
+								<p class="card-artist">{item.artist}</p>
+								<p class="card-role">{item.role}</p>
+
+								<div class="card-actions">
+									<button
+										type="button"
+										class="btn btn-primary"
+										data-play-track={item.audioIndex}
+										aria-label={`${labels.listen} ${item.title}`}
+									>
+										<Icon name="Play" size={18} />
+										<span>{labels.listen}</span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.stack-section {
+		padding-block: clamp(6rem, 14vw, 12rem);
+		position: relative;
+	}
+
+	.stack-header {
+		margin-bottom: var(--s-8);
+	}
+
+	.stack-heading {
+		font-size: var(--fs-h2);
+	}
+
+	.stack-list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--s-6);
+	}
+
+	.stack-card {
+		position: sticky;
+		top: calc(64px + var(--s-4) + (var(--card-idx, 0) * 16px));
+		z-index: calc(var(--z-stack) + var(--card-idx, 0));
+		background: var(--surface-1);
+		border: 1px solid var(--line-strong);
+		border-radius: var(--r-card);
+		padding: var(--s-5);
+		box-shadow: 0 12px 32px rgb(11 11 13 / 0.4);
+		transition: transform 0.2s var(--ease);
+	}
+
+	.card-inner {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--s-5);
+		align-items: center;
+	}
+
+	@media (min-width: 768px) {
+		.card-inner {
+			grid-template-columns: 320px 1fr;
+			gap: var(--s-7);
+		}
+	}
+
+	.card-media {
+		width: 100%;
+		aspect-ratio: 1;
+		border-radius: calc(var(--r-card) - 8px);
+		overflow: hidden;
+		background: var(--surface-2);
+	}
+
+	.card-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		filter: grayscale(1) contrast(1.1) brightness(0.85);
+		transition: transform 0.6s var(--ease), filter 0.6s var(--ease);
+	}
+
+	.stack-card:hover .card-img {
+		filter: grayscale(0.8) contrast(1.1) brightness(0.95);
+		transform: scale(1.02);
+	}
+
+	.card-info {
+		display: flex;
+		flex-direction: column;
+		gap: var(--s-2);
+	}
+
+	.card-meta {
+		display: flex;
+		align-items: center;
+		gap: var(--s-2);
+		font-size: var(--fs-micro);
+		color: var(--text-subtle);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.meta-dot {
+		color: var(--line-strong);
+	}
+
+	.card-title {
+		font-size: var(--fs-h2);
+		font-weight: 600;
+		letter-spacing: -0.035em;
+		color: var(--text);
+		margin-top: var(--s-1);
+	}
+
+	.card-artist {
+		font-size: var(--fs-h3);
+		color: var(--text-muted);
+		font-weight: 500;
+	}
+
+	.card-role {
+		font-size: var(--fs-small);
+		color: var(--text-subtle);
+		margin-top: var(--s-1);
+	}
+
+	.card-actions {
+		margin-top: var(--s-5);
+	}
+</style>

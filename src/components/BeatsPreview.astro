@@ -1,0 +1,244 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+	lang?: 'es' | 'en';
+}
+
+const { lang = 'es' } = Astro.props;
+
+const labels = {
+	es: {
+		title: 'Beats inéditos',
+		listen: 'Escuchar',
+		request: 'Pedir beat',
+		all: 'Todos',
+		bpm: 'BPM',
+	},
+	en: {
+		title: 'Unreleased beats',
+		listen: 'Listen',
+		request: 'Request beat',
+		all: 'All',
+		bpm: 'BPM',
+	},
+}[lang];
+
+const beats = [
+	{
+		id: 'beat-01',
+		title: 'Humo',
+		genre: 'Trap',
+		bpm: 140,
+		duration: '2:38',
+		audioIndex: 4,
+	},
+	{
+		id: 'beat-02',
+		title: 'Eclipse',
+		genre: 'Reggaetón',
+		bpm: 96,
+		duration: '3:04',
+		audioIndex: 5,
+	},
+	{
+		id: 'beat-03',
+		title: 'Vértigo',
+		genre: lang === 'es' ? 'Pop alternativo' : 'Alt-pop',
+		bpm: 122,
+		duration: '2:45',
+		audioIndex: 6,
+	},
+];
+---
+
+<section class="beats-section" id="beats" aria-label={labels.title}>
+	<div class="wrap">
+		<div class="beats-header">
+			<h2 class="display beats-title">{labels.title}</h2>
+			<div class="beats-filters" role="group" aria-label="Filtro por género">
+				<button type="button" class="chip active" data-filter="all">{labels.all}</button>
+				<button type="button" class="chip" data-filter="Trap">Trap</button>
+				<button type="button" class="chip" data-filter="Reggaetón">Reggaetón</button>
+				<button type="button" class="chip" data-filter="Alt-pop">
+					{lang === 'es' ? 'Pop alternativo' : 'Alt-pop'}
+				</button>
+			</div>
+		</div>
+
+		<div class="beats-list">
+			{
+				beats.map((beat) => (
+					<article class="beat-row" data-genre={beat.genre}>
+						<div class="beat-left">
+							<button
+								type="button"
+								class="btn btn-primary btn-icon beat-play"
+								data-play-track={beat.audioIndex}
+								aria-label={`${labels.listen} ${beat.title}`}
+							>
+								<Icon name="Play" size={18} />
+							</button>
+							<div class="beat-meta-box">
+								<h3 class="beat-name">{beat.title}</h3>
+								<div class="beat-sub">
+									<span>{beat.genre}</span>
+									<span class="meta-dot">·</span>
+									<span class="tabular">{beat.bpm} {labels.bpm}</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="beat-right">
+							<span class="beat-duration tabular">{beat.duration}</span>
+							<button
+								type="button"
+								class="btn btn-secondary beat-request-btn"
+								data-request-beat={beat.title}
+							>
+								<Icon name="Copy" size={16} />
+								<span>{labels.request}</span>
+							</button>
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.beats-section {
+		padding-block: clamp(6rem, 14vw, 12rem);
+		border-top: 1px solid var(--line);
+	}
+
+	.beats-header {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--s-5);
+		margin-bottom: var(--s-7);
+	}
+
+	.beats-title {
+		font-size: var(--fs-h2);
+	}
+
+	.beats-filters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--s-2);
+	}
+
+	.beats-list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--s-3);
+	}
+
+	.beat-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: var(--s-4);
+		padding: var(--s-4) var(--s-5);
+		background: var(--surface-1);
+		border: 1px solid var(--line);
+		border-radius: var(--r-card);
+		transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease);
+	}
+
+	.beat-row:hover {
+		background: var(--surface-2);
+		border-color: var(--line-strong);
+	}
+
+	.beat-left {
+		display: flex;
+		align-items: center;
+		gap: var(--s-4);
+	}
+
+	.beat-play {
+		flex-shrink: 0;
+	}
+
+	.beat-name {
+		font-size: var(--fs-h3);
+		font-weight: 600;
+		color: var(--text);
+		letter-spacing: -0.02em;
+	}
+
+	.beat-sub {
+		display: flex;
+		align-items: center;
+		gap: var(--s-2);
+		font-size: var(--fs-micro);
+		color: var(--text-subtle);
+		margin-top: 2px;
+	}
+
+	.meta-dot {
+		color: var(--line-strong);
+	}
+
+	.beat-right {
+		display: flex;
+		align-items: center;
+		gap: var(--s-5);
+	}
+
+	.beat-duration {
+		font-size: var(--fs-small);
+		color: var(--text-subtle);
+	}
+
+	.beat-request-btn {
+		font-size: var(--fs-small);
+		padding: 0.55rem 1.1rem;
+	}
+
+	@media (max-width: 640px) {
+		.beat-row {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+		.beat-right {
+			width: 100%;
+			justify-content: space-between;
+			margin-top: var(--s-2);
+		}
+	}
+</style>
+
+<script>
+	// Filtro de beats interactivo por chips
+	const filterButtons = document.querySelectorAll('.beats-filters .chip');
+	const beatRows = document.querySelectorAll('.beat-row');
+
+	filterButtons.forEach((btn) => {
+		btn.addEventListener('click', () => {
+			filterButtons.forEach((b) => b.classList.remove('active'));
+			btn.classList.add('active');
+
+			const selectedFilter = btn.getAttribute('data-filter');
+
+			beatRows.forEach((row) => {
+				const rowGenre = row.getAttribute('data-genre');
+				if (
+					selectedFilter === 'all' ||
+					rowGenre === selectedFilter ||
+					(selectedFilter === 'Alt-pop' && rowGenre?.includes('pop'))
+				) {
+					(row as HTMLElement).style.display = 'flex';
+				} else {
+					(row as HTMLElement).style.display = 'none';
+				}
+			});
+		});
+	});
+</script>
