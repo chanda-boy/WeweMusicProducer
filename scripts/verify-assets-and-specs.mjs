@@ -10,7 +10,9 @@ let hasErrors = false;
 const requiredMedia = [
 	'public/audio/manana-si.mp3',
 	'public/jared-prod.jpg',
-	'public/MañanaSi_jared.wav'
+	'public/MañanaSi_jared.wav',
+	'public/MañanaSi_jared.jpeg',
+	'public/audio/manana-si-cover.jpeg'
 ];
 
 for (const file of requiredMedia) {

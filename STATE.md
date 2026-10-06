@@ -52,7 +52,8 @@ Siguiendo principios de desarrollo ordenados:
 ### D. Optimización de Assets Multimedia
 - **`public/MañanaSi_jared.wav`:** Archivo original maestro de 33 MB preservado sin modificaciones.
 - **`public/audio/manana-si.mp3`:** Versión comprimida de alta fidelidad a 256 kbps estéreo (2.72 MB, reducción del 92%) para carga inmediata y sin problemas de codificación de caracteres en URLs.
-- **`public/jared-prod.jpg`:** Fotografía original de alta resolución (3024x4032 px) calibrada en blanco y negro.
+- **`public/MañanaSi_jared.jpeg` & `public/audio/manana-si-cover.jpeg`:** Portada oficial del beat (1600x1542 px), vinculada a la fila de beats y al reproductor persistente con filtro blanco y negro monocromo.
+- **`public/jared-prod.jpg`:** Fotografía original de alta resolución (3024x4032 px) calibrada en blanco y negro para la biografía.
 
 ---
 
