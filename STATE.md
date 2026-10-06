@@ -8,8 +8,8 @@ Documento de seguimiento del estado actual del desarrollo, decisiones de arquite
 
 - **Proyecto:** Sitio web oficial y portafolio de Wewe (Productor Musical).
 - **Stack:** Astro (Static mode), CSS nativo con scroll-driven animations, Geist Variable (`@fontsource-variable/geist`), HTML5 Audio API + Web Audio API.
-- **Fase Actual:** Desarrollo de features / Enlace y navegación hacia catálogo completo de beats.
-- **Rama Activa:** `feature/add-beats-navigation`.
+- **Fase Actual:** Integración en release / Catálogo de beats y enlaces de navegación completados.
+- **Rama Activa:** `release`.
 
 ---
 
